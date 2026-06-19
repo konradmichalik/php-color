@@ -129,17 +129,6 @@ $hasher = ColorHasher::crc32();            // lightweight CRC32 → hex
 Need a custom mapping? Implement `KonradMichalik\Color\Hashing\HashStrategy` and
 pass it to `new ColorHasher($strategy)`.
 
-## 🧪 Quality
-
-```bash
-composer test           # PHPUnit
-composer test:coverage  # PHPUnit with code coverage
-composer lint           # CS, EditorConfig and composer.json
-composer sca            # PHPStan (max)
-composer migration      # Rector
-composer fix            # apply automatic fixes
-```
-
 ## 🧑‍💻 Contributing
 
 Please have a look at [`CONTRIBUTING.md`](CONTRIBUTING.md).
