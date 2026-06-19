@@ -3,7 +3,7 @@
 # Color
 
 [![Supported PHP Versions](https://img.shields.io/packagist/dependency-v/konradmichalik/php-color/php?logo=php)](https://packagist.org/packages/konradmichalik/php-color)
-[![Coverage](https://img.shields.io/badge/coverage-100%25-brightgreen)](.github/workflows/ci.yaml)
+[![Coverage](https://img.shields.io/coverallsCoverage/github/konradmichalik/php-color?logo=coveralls)](https://coveralls.io/github/konradmichalik/php-color)
 [![License](https://img.shields.io/packagist/l/konradmichalik/php-color)](LICENSE)
 
 </div>

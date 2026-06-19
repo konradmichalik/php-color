@@ -12,7 +12,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php-version: ['8.2', '8.3', '8.4']
+        php-version: ['8.2', '8.3', '8.4', '8.5']
     steps:
       - uses: actions/checkout@v4
       - name: Setup PHP
@@ -25,6 +25,13 @@ jobs:
         run: composer install --no-progress --prefer-dist
       - name: Run tests with 100% coverage gate
         run: composer check:coverage
+      - name: Report coverage to Coveralls
+        if: matrix.php-version == '8.4'
+        uses: coverallsapp/github-action@v2
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          file: .build/clover.xml
+          format: clover
 
   checks:
     name: Code quality
