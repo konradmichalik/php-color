@@ -3,21 +3,17 @@
 declare(strict_types=1);
 
 /*
- * This file is part of the Composer package "konradmichalik/php-color".
+ * This file is part of the "php-color" Composer package.
  *
- * Copyright (C) 2026 Konrad Michalik <hej@konradmichalik.dev>
+ * (c) Konrad Michalik <hej@konradmichalik.dev>
  *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 2 of the License, or
- * (at your option) any later version.
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
 
 namespace KonradMichalik\Color;
 
-use KonradMichalik\Color\Hashing\Crc32Strategy;
-use KonradMichalik\Color\Hashing\HashStrategy;
-use KonradMichalik\Color\Hashing\Sha256HslStrategy;
+use KonradMichalik\Color\Hashing\{Crc32Strategy, HashStrategy, Sha256HslStrategy};
 
 /**
  * Turns an arbitrary string into a stable, deterministic color using a

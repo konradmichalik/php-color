@@ -3,20 +3,20 @@
 declare(strict_types=1);
 
 /*
- * This file is part of the Composer package "konradmichalik/php-color".
+ * This file is part of the "php-color" Composer package.
  *
- * Copyright (C) 2026 Konrad Michalik <hej@konradmichalik.dev>
+ * (c) Konrad Michalik <hej@konradmichalik.dev>
  *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 2 of the License, or
- * (at your option) any later version.
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
 
 namespace KonradMichalik\Color;
 
 use KonradMichalik\Color\Exception\InvalidColorValue;
 use Stringable;
+
+use function sprintf;
 
 /**
  * Immutable HSL color representation.
@@ -35,17 +35,17 @@ final readonly class Hsl implements Stringable
         $this->assertRange('lightness', $lightness, 0.0, 100.0);
     }
 
+    public function __toString(): string
+    {
+        return sprintf('hsl(%s, %s%%, %s%%)', round($this->hue), round($this->saturation), round($this->lightness));
+    }
+
     /**
      * @return array{float, float, float}
      */
     public function toArray(): array
     {
         return [$this->hue, $this->saturation, $this->lightness];
-    }
-
-    public function __toString(): string
-    {
-        return sprintf('hsl(%s, %s%%, %s%%)', round($this->hue), round($this->saturation), round($this->lightness));
     }
 
     private function assertRange(string $component, float $value, float $min, float $max): void

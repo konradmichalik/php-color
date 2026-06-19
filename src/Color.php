@@ -3,20 +3,20 @@
 declare(strict_types=1);
 
 /*
- * This file is part of the Composer package "konradmichalik/php-color".
+ * This file is part of the "php-color" Composer package.
  *
- * Copyright (C) 2026 Konrad Michalik <hej@konradmichalik.dev>
+ * (c) Konrad Michalik <hej@konradmichalik.dev>
  *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 2 of the License, or
- * (at your option) any later version.
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
 
 namespace KonradMichalik\Color;
 
 use KonradMichalik\Color\Exception\InvalidColorValue;
 use Stringable;
+
+use function sprintf;
 
 /**
  * Immutable color value object with conversion, luminance and contrast helpers.
@@ -28,6 +28,11 @@ final readonly class Color implements Stringable
     private function __construct(
         private Rgb $rgb,
     ) {}
+
+    public function __toString(): string
+    {
+        return $this->toHex();
+    }
 
     public static function fromRgb(int $red, int $green, int $blue): self
     {
@@ -46,13 +51,13 @@ final readonly class Color implements Stringable
     {
         $normalized = ltrim(trim($hex), '#');
 
-        if (preg_match('/^[0-9a-fA-F]{3}$/', $normalized) === 1) {
-            $normalized = $normalized[0] . $normalized[0]
-                . $normalized[1] . $normalized[1]
-                . $normalized[2] . $normalized[2];
+        if (1 === preg_match('/^[0-9a-fA-F]{3}$/', $normalized)) {
+            $normalized = $normalized[0].$normalized[0]
+                .$normalized[1].$normalized[1]
+                .$normalized[2].$normalized[2];
         }
 
-        if (preg_match('/^[0-9a-fA-F]{6}$/', $normalized) !== 1) {
+        if (1 !== preg_match('/^[0-9a-fA-F]{6}$/', $normalized)) {
             throw InvalidColorValue::forHex($hex);
         }
 
@@ -74,7 +79,7 @@ final readonly class Color implements Stringable
         $s = $hsl->saturation / 100.0;
         $l = $hsl->lightness / 100.0;
 
-        if ($s === 0.0) {
+        if (0.0 === $s) {
             $value = (int) round($l * 255);
 
             return new self(new Rgb($value, $value, $value));
@@ -181,11 +186,6 @@ final readonly class Color implements Stringable
     public function equals(self $other): bool
     {
         return $this->rgb->equals($other->rgb);
-    }
-
-    public function __toString(): string
-    {
-        return $this->toHex();
     }
 
     private static function hueToChannel(float $p, float $q, float $t): float
