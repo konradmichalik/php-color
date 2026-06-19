@@ -168,4 +168,66 @@ final class ColorTest extends TestCase
     {
         self::assertSame('#abcdef', (string) Color::fromHex('#abcdef'));
     }
+
+    #[Test]
+    #[DataProvider('stringProvider')]
+    public function fromStringParsesAllSupportedFormats(string $input, string $expectedHex): void
+    {
+        self::assertSame($expectedHex, Color::fromString($input)->toHex());
+    }
+
+    /**
+     * @return iterable<string, array{string, string}>
+     */
+    public static function stringProvider(): iterable
+    {
+        yield 'hex long with hash' => ['#ff0000', '#ff0000'];
+        yield 'hex short without hash' => ['f00', '#ff0000'];
+        yield 'hex with whitespace' => ['  #ff0000  ', '#ff0000'];
+        yield 'rgb' => ['rgb(255, 0, 0)', '#ff0000'];
+        yield 'rgb without spaces' => ['rgb(255,0,0)', '#ff0000'];
+        yield 'rgb uppercase prefix' => ['RGB(255, 0, 0)', '#ff0000'];
+        yield 'hsl with percent' => ['hsl(0, 100%, 50%)', '#ff0000'];
+        yield 'hsl without percent uppercase' => ['HSL(0,100,50)', '#ff0000'];
+        yield 'hsl with extra whitespace' => ['hsl(  0 ,  100% ,  50% )', '#ff0000'];
+    }
+
+    #[Test]
+    #[DataProvider('invalidStringProvider')]
+    public function fromStringRejectsUnparseableValues(string $input): void
+    {
+        $this->expectException(InvalidColorValue::class);
+
+        Color::fromString($input);
+    }
+
+    /**
+     * @return iterable<string, array{string}>
+     */
+    public static function invalidStringProvider(): iterable
+    {
+        yield 'named color' => ['transparent'];
+        yield 'gibberish' => ['foo'];
+        yield 'empty' => [''];
+    }
+
+    #[Test]
+    public function tryFromStringReturnsColorForValidValue(): void
+    {
+        self::assertSame('#ff0000', Color::tryFromString('rgb(255, 0, 0)')?->toHex());
+    }
+
+    #[Test]
+    #[DataProvider('invalidStringProvider')]
+    public function tryFromStringReturnsNullForInvalidValue(string $input): void
+    {
+        self::assertNull(Color::tryFromString($input));
+    }
+
+    #[Test]
+    public function toRgbaStringDelegatesToRgb(): void
+    {
+        self::assertSame('rgba(255, 0, 0, 1)', Color::fromHex('#ff0000')->toRgbaString());
+        self::assertSame('rgba(255, 0, 0, 0.8)', Color::fromHex('#ff0000')->toRgbaString(0.8));
+    }
 }

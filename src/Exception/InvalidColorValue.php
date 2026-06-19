@@ -48,4 +48,17 @@ final class InvalidColorValue extends InvalidArgumentException implements Except
             1718000003,
         );
     }
+
+    public static function forString(string $value): self
+    {
+        return new self(sprintf('The value "%s" is not a valid color string.', $value), 1718000004);
+    }
+
+    public static function forAlpha(float $alpha): self
+    {
+        return new self(
+            sprintf('The alpha value "%s" is out of range (expected 0.0-1.0).', $alpha),
+            1718000005,
+        );
+    }
 }

@@ -51,4 +51,33 @@ final class RgbTest extends TestCase
         self::assertTrue((new Rgb(1, 2, 3))->equals(new Rgb(1, 2, 3)));
         self::assertFalse((new Rgb(1, 2, 3))->equals(new Rgb(3, 2, 1)));
     }
+
+    #[Test]
+    public function toCssStringWithoutAlphaReturnsRgb(): void
+    {
+        self::assertSame('rgb(255, 0, 0)', (new Rgb(255, 0, 0))->toCssString());
+    }
+
+    #[Test]
+    public function toCssStringWithAlphaReturnsRgba(): void
+    {
+        self::assertSame('rgba(255, 0, 0, 0.8)', (new Rgb(255, 0, 0))->toCssString(0.8));
+        self::assertSame('rgba(255, 0, 0, 1)', (new Rgb(255, 0, 0))->toCssString(1.0));
+    }
+
+    #[Test]
+    public function toCssStringRejectsAlphaAboveOne(): void
+    {
+        $this->expectException(InvalidColorValue::class);
+
+        (new Rgb(255, 0, 0))->toCssString(1.5);
+    }
+
+    #[Test]
+    public function toCssStringRejectsNegativeAlpha(): void
+    {
+        $this->expectException(InvalidColorValue::class);
+
+        (new Rgb(255, 0, 0))->toCssString(-0.1);
+    }
 }

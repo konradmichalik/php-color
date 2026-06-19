@@ -73,6 +73,45 @@ final readonly class Color implements Stringable
         return self::fromHslObject(new Hsl(fmod(fmod($hue, 360.0) + 360.0, 360.0), $saturation, $lightness));
     }
 
+    /**
+     * Parses a single color string in hex, "rgb(r, g, b)" or "hsl(h, s%, l%)" notation.
+     *
+     * Whitespace is ignored, prefixes are case-insensitive and the HSL percent signs are optional.
+     */
+    public static function fromString(string $value): self
+    {
+        $trimmed = trim($value);
+
+        $hex = ltrim($trimmed, '#');
+        if (1 === preg_match('/^[0-9a-fA-F]{3}$/', $hex) || 1 === preg_match('/^[0-9a-fA-F]{6}$/', $hex)) {
+            return self::fromHex($trimmed);
+        }
+
+        if (1 === preg_match('/^rgb\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*\)$/i', $trimmed, $matches)) {
+            return self::fromRgb((int) $matches[1], (int) $matches[2], (int) $matches[3]);
+        }
+
+        if (1 === preg_match('/^hsl\(\s*(-?\d+(?:\.\d+)?)\s*,\s*(\d+(?:\.\d+)?)%?\s*,\s*(\d+(?:\.\d+)?)%?\s*\)$/i', $trimmed, $matches)) {
+            return self::fromHsl((float) $matches[1], (float) $matches[2], (float) $matches[3]);
+        }
+
+        throw InvalidColorValue::forString($value);
+    }
+
+    /**
+     * Like {@see fromString()}, but returns null instead of throwing on invalid input.
+     *
+     * Ideal for fallbacks: Color::tryFromString($value) ?? $default.
+     */
+    public static function tryFromString(string $value): ?self
+    {
+        try {
+            return self::fromString($value);
+        } catch (InvalidColorValue) {
+            return null;
+        }
+    }
+
     public static function fromHslObject(Hsl $hsl): self
     {
         $h = $hsl->hue / 360.0;
@@ -103,6 +142,11 @@ final readonly class Color implements Stringable
     public function toHex(): string
     {
         return sprintf('#%02x%02x%02x', $this->rgb->red, $this->rgb->green, $this->rgb->blue);
+    }
+
+    public function toRgbaString(float $alpha = 1.0): string
+    {
+        return $this->rgb->toCssString($alpha);
     }
 
     public function toHsl(): Hsl
