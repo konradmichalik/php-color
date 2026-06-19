@@ -61,4 +61,12 @@ final class InvalidColorValue extends InvalidArgumentException implements Except
             1718000005,
         );
     }
+
+    public static function forScaleFactor(float $factor): self
+    {
+        return new self(
+            sprintf('The scale factor "%s" is out of range (expected >= 0.0).', $factor),
+            1718000006,
+        );
+    }
 }

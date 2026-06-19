@@ -164,6 +164,64 @@ final class ColorTest extends TestCase
     }
 
     #[Test]
+    public function scaleRgbHalvesEachChannel(): void
+    {
+        // round(255 * 0.5) === 128 per channel
+        self::assertSame('#808080', Color::fromHex('#ffffff')->scaleRgb(0.5)->toHex());
+        self::assertSame('#1a3366', Color::fromHex('#3366cc')->scaleRgb(0.5)->toHex());
+    }
+
+    #[Test]
+    public function scaleRgbWithFactorOneIsIdentity(): void
+    {
+        self::assertSame('#3366cc', Color::fromHex('#3366cc')->scaleRgb(1.0)->toHex());
+    }
+
+    #[Test]
+    public function scaleRgbClampsBrightenedChannelsToMax(): void
+    {
+        self::assertSame('#ffffff', Color::fromHex('#808080')->scaleRgb(4.0)->toHex());
+    }
+
+    #[Test]
+    public function scaleRgbReturnsNewInstanceWithoutMutating(): void
+    {
+        $color = Color::fromHex('#3366cc');
+        $scaled = $color->scaleRgb(0.5);
+
+        self::assertNotSame($color, $scaled);
+        self::assertSame('#3366cc', $color->toHex());
+    }
+
+    #[Test]
+    public function scaleRgbRejectsNegativeFactor(): void
+    {
+        $this->expectException(InvalidColorValue::class);
+
+        Color::fromHex('#3366cc')->scaleRgb(-0.5);
+    }
+
+    #[Test]
+    #[DataProvider('scaleFactorProvider')]
+    public function darkenDelegatesToScaleRgb(float $factor): void
+    {
+        $color = Color::fromHex('#3366cc');
+
+        self::assertSame($color->scaleRgb($factor)->toHex(), $color->darken($factor)->toHex());
+    }
+
+    /**
+     * @return iterable<string, array{float}>
+     */
+    public static function scaleFactorProvider(): iterable
+    {
+        yield 'half' => [0.5];
+        yield 'identity' => [1.0];
+        yield 'brighten with clamp' => [2.5];
+        yield 'to black' => [0.0];
+    }
+
+    #[Test]
     public function stringableReturnsHex(): void
     {
         self::assertSame('#abcdef', (string) Color::fromHex('#abcdef'));
