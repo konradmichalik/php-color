@@ -3,7 +3,7 @@
 	"description": "A small, framework-agnostic PHP library for color conversion, luminance, contrast and deterministic string-to-color hashing.",
 	"license": "GPL-2.0-or-later",
 	"type": "library",
-	"version": "0.1.0",
+	"version": "0.2.0",
 	"keywords": [
 		"color",
 		"hsl",
