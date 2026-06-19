@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /*
- * This file is part of the Composer package "konradmichalik/color".
+ * This file is part of the Composer package "konradmichalik/php-color".
  *
  * Copyright (C) 2026 Konrad Michalik <hej@konradmichalik.dev>
  *

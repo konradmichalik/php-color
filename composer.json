@@ -1,5 +1,5 @@
 {
-	"name": "konradmichalik/color",
+	"name": "konradmichalik/php-color",
 	"description": "A small, framework-agnostic PHP library for color conversion, luminance, contrast and deterministic string-to-color hashing.",
 	"license": "GPL-2.0-or-later",
 	"type": "library",

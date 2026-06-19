@@ -2,8 +2,8 @@
 
 # Color
 
-[![Supported PHP Versions](https://img.shields.io/packagist/dependency-v/konradmichalik/color/php?logo=php)](https://packagist.org/packages/konradmichalik/color)
-[![License](https://img.shields.io/packagist/l/konradmichalik/color)](LICENSE)
+[![Supported PHP Versions](https://img.shields.io/packagist/dependency-v/konradmichalik/php-color/php?logo=php)](https://packagist.org/packages/konradmichalik/php-color)
+[![License](https://img.shields.io/packagist/l/konradmichalik/php-color)](LICENSE)
 
 </div>
 
@@ -21,7 +21,7 @@ contrast and deterministic string-to-color hashing. No runtime dependencies.
 ## 🔥 Installation
 
 ```bash
-composer require konradmichalik/color
+composer require konradmichalik/php-color
 ```
 
 ## ⚡ Usage
