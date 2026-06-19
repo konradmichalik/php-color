@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace KonradMichalik\Color\Tests;
 
-use KonradMichalik\Color\{ColorHasher};
+use KonradMichalik\Color\ColorHasher;
 use KonradMichalik\Color\Hashing\{Crc32Strategy, Sha256HslStrategy};
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
