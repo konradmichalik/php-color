@@ -227,6 +227,33 @@ final readonly class Color implements Stringable
         return self::fromHsl($hsl->hue, $hsl->saturation, $lightness);
     }
 
+    /**
+     * Scales every RGB channel by the given factor, clamped to 0-255.
+     *
+     * A factor of 0.5 halves the brightness; values above 1.0 brighten and are
+     * clamped so the Rgb constructor never receives an out-of-range channel.
+     */
+    public function scaleRgb(float $factor): self
+    {
+        if ($factor < 0.0) {
+            throw InvalidColorValue::forScaleFactor($factor);
+        }
+
+        return new self(new Rgb(
+            $this->scaleChannel($this->rgb->red, $factor),
+            $this->scaleChannel($this->rgb->green, $factor),
+            $this->scaleChannel($this->rgb->blue, $factor),
+        ));
+    }
+
+    /**
+     * Alias for {@see scaleRgb()} — darkens (factor < 1.0) or brightens (factor > 1.0) in RGB space.
+     */
+    public function darken(float $factor): self
+    {
+        return $this->scaleRgb($factor);
+    }
+
     public function equals(self $other): bool
     {
         return $this->rgb->equals($other->rgb);
@@ -242,6 +269,11 @@ final readonly class Color implements Stringable
             $t < 2 / 3 => $p + ($q - $p) * (2 / 3 - $t) * 6,
             default => $p,
         };
+    }
+
+    private function scaleChannel(int $channel, float $factor): int
+    {
+        return max(0, min(255, (int) round($channel * $factor)));
     }
 
     private function linearize(int $channel): float

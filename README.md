@@ -44,7 +44,20 @@ $color->toHex();          // "#3366cc"
 
 Color::fromRgb(51, 102, 204)->toHex();      // "#3366cc"
 Color::fromHsl(220, 60, 50)->toHex();       // "#3366cc"
-$color->withLightness(85)->toHex();         // a lighter variant
+$color->withLightness(85)->toHex();         // a lighter variant (HSL space)
+$color->scaleRgb(0.5)->toHex();             // halve each RGB channel → "#1a3366"
+$color->darken(0.5)->toHex();               // alias for scaleRgb()
+```
+
+`scaleRgb()` multiplies every RGB channel by the factor (clamped to `0–255`),
+while `withLightness()` works in HSL space — use `scaleRgb()` for plain
+per-channel brightness math. `darken()` is an alias. Factors below `0.0` throw
+`InvalidColorValue`:
+
+```php
+use KonradMichalik\Color\ColorHasher;
+
+ColorHasher::crc32()->hash($string)->scaleRgb(0.5)->toHex(); // darkened avatar color
 ```
 
 Short hex (`#abc`), missing `#` and surrounding whitespace are all accepted.
