@@ -25,6 +25,9 @@ contrast and deterministic string-to-color hashing. No runtime dependencies.
 
 ## 🔥 Installation
 
+[![Packagist](https://img.shields.io/packagist/v/konradmichalik/php-color?label=version&logo=packagist)](https://packagist.org/packages/konradmichalik/php-color)
+[![Packagist Downloads](https://img.shields.io/packagist/dt/konradmichalik/php-color?color=brightgreen)](https://packagist.org/packages/konradmichalik/php-color)
+
 ```bash
 composer require konradmichalik/php-color
 ```
