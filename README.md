@@ -17,6 +17,8 @@ contrast and deterministic string-to-color hashing. No runtime dependencies.
 
 * Immutable `Color` value object with `Rgb` and `Hsl` companions
 * Lossless conversion between hex, RGB and HSL
+* Multi-format string parsing via `fromString()` / `tryFromString()`
+* CSS `rgb()` / `rgba()` output with optional alpha channel
 * WCAG 2.x relative luminance and contrast ratio
 * `optimalTextColor()` — pick readable text color for any background
 * Deterministic string → color hashing (SHA-256/HSL or CRC32)
@@ -47,6 +49,40 @@ $color->withLightness(85)->toHex();         // a lighter variant
 
 Short hex (`#abc`), missing `#` and surrounding whitespace are all accepted.
 Invalid values throw `KonradMichalik\Color\Exception\InvalidColorValue`.
+
+### Parsing arbitrary strings
+
+`fromString()` accepts hex, `rgb(r, g, b)` and `hsl(h, s%, l%)` in one call —
+whitespace is ignored, prefixes are case-insensitive and the HSL percent signs
+are optional:
+
+```php
+Color::fromString('#ff0000');          // red
+Color::fromString('f00');              // red
+Color::fromString('rgb(255, 0, 0)');   // red
+Color::fromString('hsl(0, 100%, 50%)'); // red
+Color::fromString('HSL(0,100,50)');    // red
+```
+
+Use `tryFromString()` for fallbacks — it returns `null` instead of throwing:
+
+```php
+Color::tryFromString($userInput) ?? Color::fromHex('#cccccc');
+```
+
+### CSS output with alpha
+
+```php
+$rgb = Color::fromHex('#ff0000')->toRgb();
+
+$rgb->toCssString();        // "rgb(255, 0, 0)"
+$rgb->toCssString(0.8);     // "rgba(255, 0, 0, 0.8)"
+
+Color::fromHex('#ff0000')->toRgbaString(0.8); // "rgba(255, 0, 0, 0.8)"
+```
+
+The model stays RGB-only; alpha is an output concern. Values outside `0.0–1.0`
+throw `KonradMichalik\Color\Exception\InvalidColorValue`.
 
 ### Contrast & readable text
 

@@ -46,6 +46,24 @@ final readonly class Rgb implements Stringable
         return [$this->red, $this->green, $this->blue];
     }
 
+    /**
+     * Renders a CSS color string, optionally with an alpha channel.
+     *
+     * Without an alpha value: "rgb(255, 0, 0)". With one: "rgba(255, 0, 0, 0.8)".
+     */
+    public function toCssString(?float $alpha = null): string
+    {
+        if (null === $alpha) {
+            return (string) $this;
+        }
+
+        if ($alpha < 0.0 || $alpha > 1.0) {
+            throw InvalidColorValue::forAlpha($alpha);
+        }
+
+        return sprintf('rgba(%d, %d, %d, %s)', $this->red, $this->green, $this->blue, $alpha);
+    }
+
     public function equals(self $other): bool
     {
         return $this->red === $other->red
