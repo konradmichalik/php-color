@@ -2,8 +2,10 @@
 
 # Color
 
-[![Supported PHP Versions](https://img.shields.io/packagist/dependency-v/konradmichalik/php-color/php?logo=php)](https://packagist.org/packages/konradmichalik/php-color)
 [![Coverage](https://img.shields.io/coverallsCoverage/github/konradmichalik/php-color?logo=coveralls)](https://coveralls.io/github/konradmichalik/php-color)
+[![CGL](https://img.shields.io/github/actions/workflow/status/konradmichalik/php-color/cgl.yml?label=cgl&logo=github)](https://github.com/konradmichalik/php-color/actions/workflows/cgl.yml)
+[![Tests](https://img.shields.io/github/actions/workflow/status/konradmichalik/php-color/tests.yml?label=tests&logo=github)](https://github.com/konradmichalik/php-color/actions/workflows/tests.yml)
+[![Supported PHP Versions](https://img.shields.io/packagist/dependency-v/konradmichalik/php-color/php?logo=php)](https://packagist.org/packages/konradmichalik/php-color)
 [![License](https://img.shields.io/packagist/l/konradmichalik/php-color)](LICENSE)
 
 </div>
@@ -81,10 +83,17 @@ pass it to `new ColorHasher($strategy)`.
 ## 🧪 Quality
 
 ```bash
-composer test    # PHPUnit
-composer check   # PHPStan (max), CS, Rector, dependency analysis
-composer fix     # apply automatic fixes
+composer test           # PHPUnit
+composer test:coverage  # PHPUnit with code coverage
+composer lint           # CS, EditorConfig and composer.json
+composer sca            # PHPStan (max)
+composer migration      # Rector
+composer fix            # apply automatic fixes
 ```
+
+## 🧑‍💻 Contributing
+
+Please have a look at [`CONTRIBUTING.md`](CONTRIBUTING.md).
 
 ## 📄 License
 
