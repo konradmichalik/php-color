@@ -1,5 +1,7 @@
 <div align="center">
 
+![icon](icon.png)
+
 # Color
 
 [![Coverage](https://img.shields.io/coverallsCoverage/github/konradmichalik/php-color?logo=coveralls)](https://coveralls.io/github/konradmichalik/php-color)
